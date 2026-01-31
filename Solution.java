@@ -1,14 +1,16 @@
 import java.util.ArrayList;
 import java.util.List;
 
-class Solution {
-    public List<Integer> longestBinaryGapIndices(int N) {
+public class Solution {
+
+    // Returns the list of starting indices of the longest binary gaps
+    public static List<Integer> longestBinaryGapIndices(int N) {
         List<Integer> maxGapStartIndices = new ArrayList<>();
         int maxGap = 0;
         int currentGap = 0;
-        int bitIndex = 0;          // Current bit position (rightmost bit = 0)
+        int bitIndex = 0;          // Rightmost bit = 0
         int currentStartIndex = 0; // Start index of current gap
-        boolean counting = false;  // Have we hit the first '1'?
+        boolean counting = false;  // Have we seen the first '1'?
 
         while (N > 0) {
             if ((N & 1) == 1) {
@@ -23,7 +25,7 @@ class Solution {
                 }
                 counting = true;
                 currentGap = 0;
-                currentStartIndex = bitIndex + 1; // Next zero starts at next bit
+                currentStartIndex = bitIndex + 1; // Next gap starts at next bit
             } else {
                 if (counting) {
                     currentGap++;
@@ -36,11 +38,25 @@ class Solution {
         return maxGapStartIndices;
     }
 
-    // Helper method to print result nicely
+    // Helper to get binary representation as string
+    public static String toBinaryString(int N) {
+        if (N == 0) return "0";
+        StringBuilder sb = new StringBuilder();
+        while (N > 0) {
+            sb.insert(0, (N & 1));
+            N >>= 1;
+        }
+        return sb.toString();
+    }
+
+    // Main method
     public static void main(String[] args) {
-        Solution sol = new Solution();
-        int N = 1041; // binary: 10000010001
-        List<Integer> indices = sol.longestBinaryGapIndices(N);
-        System.out.println("Longest gap start indices: " + indices); // Should print [1]
+        int N = 1041; // Example number
+        System.out.println("Number: " + N);
+        System.out.println("Binary: " + toBinaryString(N));
+
+        List<Integer> indices = longestBinaryGapIndices(N);
+        System.out.println("Longest gap start indices: " + indices);
     }
 }
+
